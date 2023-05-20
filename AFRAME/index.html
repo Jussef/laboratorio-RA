@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://libs.zappar.com/zappar-aframe/2.0.2/zappar-aframe.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <title>Aframe</title>
+  </head>
+  <body>
+    <a-scene screenshot webxr="optionalFeatures:  hit-test;" ar-hit-test="target:#lentes;" embedded>
+      <a-assets><a-asset-item id="obj1" src="./assets/scene.gltf"></a-asset-item></a-assets>
+      <a-assets><a-asset-item id="obj2" src="./assets/logo.gltf"></a-asset-item></a-assets>
+      <!-- Ask user for camera permissions, display some text if permission is denied -->
+      <a-entity zappar-permissions-ui id="permissions">
+        <!-- Remove the text entity to use Zappar's default permission denied UI -->
+        <a-entity text="value: Please reload the page, accepting the camera permissions." position="0 0 -2"></a-entity>
+      </a-entity>
+      <a-entity camera zappar-camera="user-facing:true;"></a-entity>
+      <a-entity zappar-face id="user_face">
+        <!-- <a-box id="box1" visible="false" color="#4CC3D9"></a-box> -->
+        <!-- <a-entity geometry="primitive:face-mesh; face:#user_face; fill-mouth:true; fill-eye-left:true;" material="src:assets/lofi.jpeg; transparent:true;"></a-entity> -->
+        <a-entity zappar-head-mask="face:#user_face"></a-entity>
+        <a-gltf-model id="lentes" src="#obj1" scale="0.5 0.6 0.65" position="0 -0.02 0.7" rotation="0 -90 0" visible="false"></a-gltf-model>
+        <a-gltf-model id="logo1" src="#obj2" scale="10 10 10" position="0 0.9 1" visible="false"></a-gltf-model>
+      </a-entity>
+    </a-scene>
+    <div class="wrapper">
+        <a id="botonLentes" href="#"><span>Lentes</span></a>
+        <a id="botonLogo" href="#"><span>Logo</span></a>
+        <a id="botonFoto" href="#"><span>Foto</span></a>
+      </div>
+  </body>
+  <script src="./main.js"></script>
+</html>

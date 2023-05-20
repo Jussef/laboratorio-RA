@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="./css/main.css" />
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://libs.zappar.com/zappar-aframe/0.3.9/zappar-aframe.js"></script>
+    <script src="./js/main.js"></script>
+    <title>RA|Face-Tracker</title>
+  </head>
+  <body>
+    <a-scene>
+      <!-- Browser Permissions -->
+      <a-entity zappar-permissions-ui id="permissions">
+        <a-entity text="value: Please reload the page, accepting the camera permissions." position="0 0 -2"></a-entity>
+      </a-entity>
+      <!-- Browser Compatibility -->
+      <a-entity zappar-compatibility-ui id="compatibility">
+        <a-entity text="value: Browser incompatible!" position="0 0 -2"></a-entity>
+      </a-entity>
+      <a-entity camera zappar-camera="user-facing: true;"></a-entity>
+      <!-- Face Mesh -->
+      <a-entity zappar-face id="my-face-tracker">
+        <a-entity geometry="primitive: face-mesh; face: #my-face-tracker" material="src:./assets/2.png; transparent: true;"></a-entity>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>

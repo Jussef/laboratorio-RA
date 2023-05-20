@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Detección Facial con A-Frame y TensorFlow.js</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/face-landmarks-detection@1.0.2/dist/face-landmarks-detection.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-camera></a-camera>
+      <a-entity id="faceMesh"></a-entity>
+    </a-scene>
+
+    <script>
+      AFRAME.registerComponent("face-detection", {
+        async init() {
+          await tf.setBackend("webgl");
+          const model = faceLandmarksDetection.SupportedModels.MediaPipeFaceMesh;
+          const detectorConfig = {
+            runtime: "mediapipe", // or 'tfjs'
+            solutionPath: "https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh",
+          };
+          const detector = await faceLandmarksDetection.createDetector(model, detectorConfig);
+        },
+
+        async startFaceDetection() {
+          const video = document.querySelector("video");
+          const canvas = faceLandmarksDetection.createCanvasFromMedia(video);
+          document.body.appendChild(canvas);
+
+          const displaySize = { width: video.width, height: video.height };
+          faceLandmarksDetection.matchDimensions(canvas, displaySize);
+
+          setInterval(async () => {
+            const predictions = await this.model.estimateFaces({ input: video });
+            if (predictions.length > 0) {
+              const faceMesh = document.getElementById("faceMesh");
+              faceMesh.setAttribute("position", `${predictions[0].annotations.noseTip[0][0]} ${predictions[0].annotations.noseTip[0][1]} ${predictions[0].annotations.noseTip[0][2]}`);
+              faceMesh.setAttribute("rotation", "0 0 0");
+              faceMesh.setAttribute("scale", "1 1 1");
+            }
+          }, 100);
+        },
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const faceDetectionComponent = document.createElement("script");
+        faceDetectionComponent.setAttribute("id", "faceDetectionComponent");
+        faceDetectionComponent.setAttribute("type", "text/javascript");
+        document.head.appendChild(faceDetectionComponent);
+
+        const scene = document.querySelector("a-scene");
+        const faceMesh = document.createElement("a-entity");
+        faceMesh.setAttribute("id", "faceMesh");
+        faceMesh.setAttribute("face-detection", "");
+        scene.appendChild(faceMesh);
+      });
+    </script>
+  </body>
+</html>

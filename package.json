@@ -1,0 +1,12 @@
+{
+  "name": "curso",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "cli-color": "^2.0.0",
+    "moment": "^2.29.1"
+  },
+  "scripts": {
+    "prod": "netlify deploy --prod -d public"
+  }
+}
