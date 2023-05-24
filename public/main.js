@@ -42,23 +42,38 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     const { renderer, scene, camera } = mindarThree;
     const textures = {};
-    textures['happy'] = await loadTexture('./openmoji/1F600.png');
-    textures['angry'] = await loadTexture('./openmoji/1F621.png');
-    textures['sad'] = await loadTexture('./openmoji/1F625.png');
-    textures["neutral"] = await loadTexture("./openmoji/aa.gif");
+    textures["happy"] = await loadTexture("./openmoji/e1.png");
+    textures["angry"] = await loadTexture("./openmoji/1F621.png");
+    textures["sad"] = await loadTexture("./openmoji/1F625.png");
+    textures["neutral"] = await loadTexture("./openmoji/logo-color.png");
 
-    const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
+    // Crear una luz de tipo HemisphereLight
+    const skyColor = 0xffffff; // Color del cielo (blanco)
+    const groundColor = 0x000000; // Color del suelo (negro)
+    const intensity = 0.8; // Intensidad de la luz
+    // const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
+    const light = new THREE.AmbientLight(skyColor, intensity);
+
+    // Ajustar la posición y orientación de la luz
+    light.position.set(0, 1, 0); // Colocar la luz en la posición deseada
+
+    // Agregar la luz a la escena
     scene.add(light);
 
     // IMAGEN
-    const geometry = new THREE.PlaneGeometry(1, 1);
-    geometry.position(0, 0, 0);
-    const material = new THREE.MeshBasicMaterial({ map: textures["neutral"] });
+    const geometry = new THREE.PlaneGeometry(0.7, 0.7);
+    const material = new THREE.MeshStandardMaterial({ map: textures["neutral"] });
+    // const material = new THREE.MeshBasicMaterial({ map: textures["neutral"] });
     const plane = new THREE.Mesh(geometry, material);
 
 
+    // Cambia la posición de la malla
+    plane.position.x = 0; // Cambia la posición en el eje x
+    plane.position.y = 0.3; // Cambia la posición en el eje y
+    plane.position.z = 0; // Cambia la posición en el eje z
+
     // create anchor 151
-    const anchor = mindarThree.addAnchor(168);
+    const anchor = mindarThree.addAnchor(151);
     anchor.group.add(plane);
 
     // start AR
@@ -107,8 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-
-    // function emojis 
+    // function emojis
     const video = mindarThree.video;
     const expressions = ["happy", "angry", "sad", "neutral"];
     let lastExpression = "neutral";
