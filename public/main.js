@@ -2,6 +2,20 @@ import * as faceapi from "./libs/faceapi/face-api.esm.js";
 import { loadTexture } from "./libs/loader.js";
 const THREE = window.MINDAR.FACE.THREE;
 
+// Detectar si se accede desde un dispositivo móvil
+function isMobileDevice() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+// Obtener el elemento del div
+var previewShareDiv = document.getElementById("preview-share");
+// Verificar si es un dispositivo móvil y cambiar el texto
+if (isMobileDevice()) {
+  previewShareDiv.textContent = "Compartir";
+} else {
+  previewShareDiv.textContent = "Descargar";
+}
+
+
 const capture = (mindarThree) => {
   const { video, renderer, scene, camera } = mindarThree;
   const renderCanvas = renderer.domElement;
@@ -42,10 +56,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     const { renderer, scene, camera } = mindarThree;
     const textures = {};
-    textures["happy"] = await loadTexture("./openmoji/e1.png");
-    textures["angry"] = await loadTexture("./openmoji/1F621.png");
-    textures["sad"] = await loadTexture("./openmoji/1F625.png");
-    textures["neutral"] = await loadTexture("./openmoji/logo-color.png");
+    textures["happy"] = await loadTexture("./openmoji/logo-color.png");
+    textures["angry"] = await loadTexture("./openmoji/logo-gris.png");
+    textures["sad"] = await loadTexture("./openmoji/logo-gris.png");
+    textures["neutral"] = await loadTexture("./openmoji/logo-gris.png");
 
     // Crear una luz de tipo HemisphereLight
     const skyColor = 0xffffff; // Color del cielo (blanco)
